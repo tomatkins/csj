@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 const links = [
   { href: '/dashboard' as const, label: 'Dashboard' },
   { href: '/music' as const, label: 'High Strung Music Library' },
+  { href: '/guitars' as const, label: 'Guitars' },
   { href: '/lessons' as const, label: 'Lessons' },
   { href: '/contact' as const, label: 'Contact' },
 ];

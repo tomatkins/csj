@@ -9,7 +9,33 @@ import { StatusMessage } from '@/components/status-message';
 
 type Mode = 'signin' | 'signup';
 
-const initialSignup = {
+type SigninState = {
+  email: string;
+  password: string;
+};
+
+type SignupState = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  xHandle: string;
+  facebookUrl: string;
+  youtubeUrl: string;
+};
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_LENGTHS = {
+  email: 254,
+  firstName: 50,
+  lastName: 50,
+  password: 128,
+  xHandle: 50,
+  facebookUrl: 200,
+  youtubeUrl: 200,
+} as const;
+
+const initialSignup: SignupState = {
   firstName: '',
   lastName: '',
   email: '',
@@ -19,10 +45,57 @@ const initialSignup = {
   youtubeUrl: '',
 };
 
+function trimValue(value: string) {
+  return value.trim();
+}
+
+function sanitizeSignup(values: SignupState): SignupState {
+  return {
+    firstName: trimValue(values.firstName),
+    lastName: trimValue(values.lastName),
+    email: trimValue(values.email),
+    password: trimValue(values.password),
+    xHandle: trimValue(values.xHandle),
+    facebookUrl: trimValue(values.facebookUrl),
+    youtubeUrl: trimValue(values.youtubeUrl),
+  };
+}
+
+function sanitizeSignin(values: SigninState): SigninState {
+  return {
+    email: trimValue(values.email),
+    password: trimValue(values.password),
+  };
+}
+
+function validateSignin(values: SigninState) {
+  if (!values.email || !values.password) return 'Email and password are required';
+  if (values.email.length > MAX_LENGTHS.email) return 'Email must be 254 characters or less';
+  if (values.password.length > MAX_LENGTHS.password) return 'Password must be 128 characters or less';
+  if (!EMAIL_REGEX.test(values.email)) return 'Please enter a valid email address';
+  return null;
+}
+
+function validateSignup(values: SignupState) {
+  if (!values.firstName || !values.lastName || !values.email || !values.password) {
+    return 'Please complete all required fields';
+  }
+  if (values.firstName.length > MAX_LENGTHS.firstName) return 'First name must be 50 characters or less';
+  if (values.lastName.length > MAX_LENGTHS.lastName) return 'Last name must be 50 characters or less';
+  if (values.email.length > MAX_LENGTHS.email) return 'Email must be 254 characters or less';
+  if (values.password.length > MAX_LENGTHS.password) return 'Password must be 128 characters or less';
+  if (values.password.length < 12) return 'Password must be at least 12 characters';
+  if (values.xHandle.length > MAX_LENGTHS.xHandle) return 'X Handle must be 50 characters or less';
+  if (values.facebookUrl.length > MAX_LENGTHS.facebookUrl) return 'Facebook URL must be 200 characters or less';
+  if (values.youtubeUrl.length > MAX_LENGTHS.youtubeUrl) return 'YouTube URL must be 200 characters or less';
+  if (!EMAIL_REGEX.test(values.email)) return 'Please enter a valid email address';
+  return null;
+}
+
 export function AuthPage() {
   const [mode, setMode] = useState<Mode>('signin');
-  const [signin, setSignin] = useState({ email: '', password: '' });
-  const [signup, setSignup] = useState(initialSignup);
+  const [signin, setSignin] = useState<SigninState>({ email: '', password: '' });
+  const [signup, setSignup] = useState<SignupState>(initialSignup);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,13 +104,23 @@ export function AuthPage() {
 
   const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
     setError(null);
     setSuccess(null);
 
+    const sanitizedSignin = sanitizeSignin(signin);
+    setSignin(sanitizedSignin);
+
+    const validationError = validateSignin(sanitizedSignin);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setLoading(true);
+
     const { error } = await supabase.auth.signInWithPassword({
-      email: signin.email,
-      password: signin.password,
+      email: sanitizedSignin.email,
+      password: sanitizedSignin.password,
     });
 
     setLoading(false);
@@ -53,22 +136,32 @@ export function AuthPage() {
 
   const handleSignUp = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
     setError(null);
     setSuccess(null);
 
-    const redirectTo = `${window.location.origin}/verify?email=${encodeURIComponent(signup.email)}`;
+    const sanitizedSignup = sanitizeSignup(signup);
+    setSignup(sanitizedSignup);
+
+    const validationError = validateSignup(sanitizedSignup);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setLoading(true);
+
+    const redirectTo = `${window.location.origin}/verify?email=${encodeURIComponent(sanitizedSignup.email)}`;
     const { error: signUpError } = await supabase.auth.signUp({
-      email: signup.email,
-      password: signup.password,
+      email: sanitizedSignup.email,
+      password: sanitizedSignup.password,
       options: {
         emailRedirectTo: redirectTo,
         data: {
-          first_name: signup.firstName,
-          last_name: signup.lastName,
-          x_handle: signup.xHandle || null,
-          facebook_url: signup.facebookUrl || null,
-          youtube_url: signup.youtubeUrl || null,
+          first_name: sanitizedSignup.firstName,
+          last_name: sanitizedSignup.lastName,
+          x_handle: sanitizedSignup.xHandle || null,
+          facebook_url: sanitizedSignup.facebookUrl || null,
+          youtube_url: sanitizedSignup.youtubeUrl || null,
         },
       },
     });
@@ -81,7 +174,7 @@ export function AuthPage() {
 
     setLoading(false);
     setSuccess('Account created. Enter the 6-digit code from your email to finish docking.');
-    router.push(`/verify?email=${encodeURIComponent(signup.email)}`);
+    router.push(`/verify?email=${encodeURIComponent(sanitizedSignup.email)}`);
   };
 
   return (
@@ -135,35 +228,35 @@ export function AuthPage() {
             {mode === 'signin' ? (
               <form className="mt-6 space-y-4" onSubmit={handleSignIn}>
                 <Field label="Email">
-                  <input required type="email" value={signin.email} onChange={(e) => setSignin({ ...signin, email: e.target.value })} className={inputClass} />
+                  <input required type="email" maxLength={MAX_LENGTHS.email} value={signin.email} onChange={(e) => setSignin({ ...signin, email: e.target.value })} className={inputClass} />
                 </Field>
                 <Field label="Password">
-                  <input required type="password" value={signin.password} onChange={(e) => setSignin({ ...signin, password: e.target.value })} className={inputClass} />
+                  <input required type="password" maxLength={MAX_LENGTHS.password} value={signin.password} onChange={(e) => setSignin({ ...signin, password: e.target.value })} className={inputClass} />
                 </Field>
                 <button disabled={loading} className={buttonClass}>{loading ? 'Launching…' : 'Sign In'}</button>
               </form>
             ) : (
               <form className="mt-6 space-y-4" onSubmit={handleSignUp}>
                 <Field label="First Name">
-                  <input required value={signup.firstName} onChange={(e) => setSignup({ ...signup, firstName: e.target.value })} className={inputClass} />
+                  <input required maxLength={MAX_LENGTHS.firstName} value={signup.firstName} onChange={(e) => setSignup({ ...signup, firstName: e.target.value })} className={inputClass} />
                 </Field>
                 <Field label="Last Name">
-                  <input required value={signup.lastName} onChange={(e) => setSignup({ ...signup, lastName: e.target.value })} className={inputClass} />
+                  <input required maxLength={MAX_LENGTHS.lastName} value={signup.lastName} onChange={(e) => setSignup({ ...signup, lastName: e.target.value })} className={inputClass} />
                 </Field>
                 <Field label="Email">
-                  <input required type="email" value={signup.email} onChange={(e) => setSignup({ ...signup, email: e.target.value })} className={inputClass} />
+                  <input required type="email" maxLength={MAX_LENGTHS.email} value={signup.email} onChange={(e) => setSignup({ ...signup, email: e.target.value })} className={inputClass} />
                 </Field>
-                <Field label="Password">
-                  <input required type="password" value={signup.password} onChange={(e) => setSignup({ ...signup, password: e.target.value })} className={inputClass} />
+                <Field label="Create your password" helperText="Minimum 12 characters">
+                  <input required type="password" minLength={12} maxLength={MAX_LENGTHS.password} value={signup.password} onChange={(e) => setSignup({ ...signup, password: e.target.value })} className={inputClass} />
                 </Field>
                 <Field label="X Handle">
-                  <input value={signup.xHandle} placeholder="@yourhandle" onChange={(e) => setSignup({ ...signup, xHandle: e.target.value })} className={inputClass} />
+                  <input maxLength={MAX_LENGTHS.xHandle} value={signup.xHandle} placeholder="@yourhandle" onChange={(e) => setSignup({ ...signup, xHandle: e.target.value })} className={inputClass} />
                 </Field>
                 <Field label="Facebook URL">
-                  <input type="url" value={signup.facebookUrl} onChange={(e) => setSignup({ ...signup, facebookUrl: e.target.value })} className={inputClass} />
+                  <input type="url" maxLength={MAX_LENGTHS.facebookUrl} value={signup.facebookUrl} onChange={(e) => setSignup({ ...signup, facebookUrl: e.target.value })} className={inputClass} />
                 </Field>
                 <Field label="YouTube URL">
-                  <input type="url" value={signup.youtubeUrl} onChange={(e) => setSignup({ ...signup, youtubeUrl: e.target.value })} className={inputClass} />
+                  <input type="url" maxLength={MAX_LENGTHS.youtubeUrl} value={signup.youtubeUrl} onChange={(e) => setSignup({ ...signup, youtubeUrl: e.target.value })} className={inputClass} />
                 </Field>
                 <button disabled={loading} className={buttonClass}>{loading ? 'Creating orbit…' : 'Create Account'}</button>
               </form>
@@ -175,11 +268,12 @@ export function AuthPage() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, helperText, children }: { label: string; helperText?: string; children: React.ReactNode }) {
   return (
     <label className="flex w-full flex-col gap-2 text-sm text-white/80 sm:text-base">
       <span>{label}</span>
       {children}
+      {helperText ? <span className="text-sm text-white/45">{helperText}</span> : null}
     </label>
   );
 }

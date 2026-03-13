@@ -9,6 +9,13 @@ type Props = {
   username: string;
 };
 
+const MAX_SUBJECT_LENGTH = 100;
+const MAX_MESSAGE_LENGTH = 2000;
+
+function trimValue(value: string) {
+  return value.trim();
+}
+
 export function ContactForm({ name, email, username }: Props) {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -18,15 +25,43 @@ export function ContactForm({ name, email, username }: Props) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
     setStatus(null);
     setError(null);
+
+    const trimmedSubject = trimValue(subject);
+    const trimmedMessage = trimValue(message);
+
+    setSubject(trimmedSubject);
+    setMessage(trimmedMessage);
+
+    if (!trimmedSubject || !trimmedMessage) {
+      setError('Subject and message are required');
+      return;
+    }
+
+    if (trimmedSubject.length > MAX_SUBJECT_LENGTH) {
+      setError('Subject must be 100 characters or less');
+      return;
+    }
+
+    if (trimmedMessage.length > MAX_MESSAGE_LENGTH) {
+      setError('Message must be 2000 characters or less');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, username, subject, message }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          username: username.trim(),
+          subject: trimmedSubject,
+          message: trimmedMessage,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Unable to send message');
@@ -52,13 +87,13 @@ export function ContactForm({ name, email, username }: Props) {
           <input readOnly value={email} className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white/80" />
         </label>
       </div>
-      <label className="space-y-2 text-sm text-white/75 block">
+      <label className="block space-y-2 text-sm text-white/75">
         <span>Subject</span>
-        <input required value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-electric/60 focus:ring-2 focus:ring-electric/20" />
+        <input required maxLength={MAX_SUBJECT_LENGTH} value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition focus:border-electric/60 focus:ring-2 focus:ring-electric/20" />
       </label>
-      <label className="space-y-2 text-sm text-white/75 block">
+      <label className="block space-y-2 text-sm text-white/75">
         <span>Message</span>
-        <textarea required rows={6} value={message} onChange={(e) => setMessage(e.target.value)} className="w-full rounded-3xl border border-white/10 bg-black/30 px-4 py-4 text-white outline-none transition focus:border-electric/60 focus:ring-2 focus:ring-electric/20" />
+        <textarea required rows={6} maxLength={MAX_MESSAGE_LENGTH} value={message} onChange={(e) => setMessage(e.target.value)} className="w-full rounded-3xl border border-white/10 bg-black/30 px-4 py-4 text-white outline-none transition focus:border-electric/60 focus:ring-2 focus:ring-electric/20" />
       </label>
       <div className="space-y-4">
         <StatusMessage type="success" message={status} />
