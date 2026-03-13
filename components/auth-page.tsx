@@ -58,36 +58,25 @@ export function AuthPage() {
     setSuccess(null);
 
     const redirectTo = `${window.location.origin}/verify?email=${encodeURIComponent(signup.email)}`;
-    const { data, error: signUpError } = await supabase.auth.signUp({
+    const { error: signUpError } = await supabase.auth.signUp({
       email: signup.email,
       password: signup.password,
-      options: { emailRedirectTo: redirectTo },
+      options: {
+        emailRedirectTo: redirectTo,
+        data: {
+          first_name: signup.firstName,
+          last_name: signup.lastName,
+          x_handle: signup.xHandle || null,
+          facebook_url: signup.facebookUrl || null,
+          youtube_url: signup.youtubeUrl || null,
+        },
+      },
     });
 
     if (signUpError) {
       setLoading(false);
       setError(signUpError.message);
       return;
-    }
-
-    const userId = data.user?.id;
-
-    if (userId) {
-      const { error: profileError } = await supabase.from('profiles').upsert({
-        id: userId,
-        first_name: signup.firstName,
-        last_name: signup.lastName,
-        email: signup.email,
-        x_handle: signup.xHandle || null,
-        facebook_url: signup.facebookUrl || null,
-        youtube_url: signup.youtubeUrl || null,
-      });
-
-      if (profileError) {
-        setLoading(false);
-        setError(profileError.message);
-        return;
-      }
     }
 
     setLoading(false);
