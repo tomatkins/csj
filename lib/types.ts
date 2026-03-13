@@ -1,6 +1,6 @@
 export type Profile = {
   id: string;
-  username: string;
+  username?: string | null;
   first_name: string;
   last_name: string;
   email: string;

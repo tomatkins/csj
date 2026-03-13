@@ -37,7 +37,7 @@ export function VerifyForm({ email }: { email: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <StatusMessage type="error" message={error} />
-      <label className="block space-y-2 text-left text-sm text-white/80">
+      <label className="flex w-full flex-col gap-2 text-left text-sm text-white/80 sm:text-base">
         <span>6-digit verification code</span>
         <input
           inputMode="numeric"
@@ -45,10 +45,10 @@ export function VerifyForm({ email }: { email: string }) {
           maxLength={6}
           value={token}
           onChange={(e) => setToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
-          className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-4 text-center text-2xl tracking-[0.6em] text-white outline-none transition focus:border-electric/60 focus:ring-2 focus:ring-electric/20"
+          className="h-12 w-full rounded-2xl border border-white/10 bg-black/30 px-4 text-center text-2xl tracking-[0.45em] text-white outline-none transition focus:border-electric/60 focus:ring-2 focus:ring-electric/20 sm:tracking-[0.6em]"
         />
       </label>
-      <button disabled={loading || token.length !== 6} className="w-full rounded-full bg-gradient-to-r from-electric via-cyan-300 to-violet-400 px-5 py-3 font-medium text-space transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60">
+      <button disabled={loading || token.length !== 6} className="h-12 w-full rounded-full bg-gradient-to-r from-electric via-cyan-300 to-violet-400 px-5 text-base font-medium text-space transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60">
         {loading ? 'Verifying…' : 'Verify'}
       </button>
     </form>
