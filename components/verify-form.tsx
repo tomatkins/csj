@@ -41,7 +41,7 @@ export function VerifyForm({ email }: { email: string }) {
         <span>6-digit verification code</span>
         <input
           inputMode="numeric"
-          pattern="[0-9]*"
+          pattern="[0-9]{6}"
           maxLength={6}
           value={token}
           onChange={(e) => setToken(e.target.value.replace(/\D/g, '').slice(0, 6))}

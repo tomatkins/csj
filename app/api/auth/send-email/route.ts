@@ -73,8 +73,8 @@ function sanitizeEmail(value: unknown) {
 
 function sanitizeToken(value: unknown) {
   if (typeof value !== 'string') return null;
-  const token = value.replace(/\D/g, '').slice(0, 6);
-  return token.length === 6 ? token : null;
+  const token = value.replace(/\D/g, '').slice(0, 8);
+  return token.length >= 6 ? token : null;
 }
 
 function getActionLabel(actionType: EmailActionType | undefined) {
@@ -163,6 +163,9 @@ function buildEmailText({ token, actionLabel }: { token: string; actionLabel: st
 
 export async function POST(request: Request) {
   try {
+    if (!isAuthorized(request)) {
+      return NextResponse.json({}, { status: 401 });
+    }
 
     const resendApiKey = getEnv('RESEND_API_KEY');
     if (!resendApiKey) {
