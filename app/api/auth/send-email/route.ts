@@ -163,10 +163,6 @@ function buildEmailText({ token, actionLabel }: { token: string; actionLabel: st
 
 export async function POST(request: Request) {
   try {
-    if (!isAuthorized(request)) {
-      return NextResponse.json({}, { status: 401 });
-    }
-
     const resendApiKey = getEnv('RESEND_API_KEY');
     if (!resendApiKey) {
       console.error('Missing RESEND_API_KEY for Supabase email hook');
