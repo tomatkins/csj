@@ -1,7 +1,7 @@
 export function Starfield() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-space bg-cosmic" />
+    <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden opacity-70">
+      <div className="absolute inset-0 bg-space/55 bg-cosmic" />
       <div className="stars-layer stars-sm" />
       <div className="stars-layer stars-md" />
       <div className="stars-layer stars-lg" />
