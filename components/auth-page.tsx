@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { CosmicShell } from '@/components/cosmic-shell';
 import { AuthCard } from '@/components/auth-card';
 import { StatusMessage } from '@/components/status-message';
+import { EmailCapture } from '@/components/email-capture';
 
 type Mode = 'signin' | 'signup';
 
@@ -197,6 +198,7 @@ export function AuthPage() {
                 </div>
               ))}
             </div>
+            <EmailCapture source="homepage" />
           </section>
 
           <AuthCard
