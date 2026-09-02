@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { CosmicShell } from '@/components/cosmic-shell';
@@ -179,7 +180,10 @@ export function AuthPage() {
 
   return (
     <CosmicShell>
-      <main className="mx-auto flex min-h-screen w-full max-w-lg items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
+      <main className="mx-auto flex min-h-screen w-full max-w-lg flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
+        <Link href="/" className="mb-6 text-sm text-white/60 transition hover:text-white">
+          ← Cloudsurfing Jupiter
+        </Link>
         <AuthCard
           title={mode === 'signin' ? 'Return to orbit' : 'Create your cosmic account'}
           subtitle={mode === 'signin' ? 'Sign in to access your dashboard.' : 'Sign up to unlock the full Cloudsurfing Jupiter experience.'}
