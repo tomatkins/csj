@@ -93,7 +93,7 @@ export function EmailCapture({ source = 'homepage' }: Props) {
         />
         <button
           disabled={loading}
-          className="h-12 shrink-0 rounded-full bg-white/10 px-5 text-sm font-medium text-white transition hover:bg-white/16 disabled:cursor-not-allowed disabled:opacity-60"
+          className="h-12 shrink-0 rounded-full bg-white/10 px-5 text-sm font-medium text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? 'Sending…' : 'Join the list'}
         </button>
