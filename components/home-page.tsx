@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { CosmicShell } from '@/components/cosmic-shell';
 import { EmailCapture } from '@/components/email-capture';
@@ -44,32 +45,45 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
     <CosmicShell>
       <PublicHeader />
       <main className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <section className="max-w-3xl space-y-6">
-          <p className="text-sm uppercase tracking-[0.35em] text-electric/80 sm:tracking-[0.45em]">
-            AI consultancy for musicians and the music business
-          </p>
-          <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl md:text-6xl">
-            Cloudsurfing{' '}
-            <span className="bg-gradient-to-r from-electric via-cyan-300 to-violet-400 bg-clip-text text-transparent">
-              Jupiter
-            </span>
-          </h1>
-          <p className="max-w-2xl text-base text-white/70 sm:text-lg">
-            We help musicians, labels, catalogs, and music ops put AI to work — without turning the studio into a software company. This is the AI consulting front of High Strung Productions.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="#proof"
-              className="rounded-full bg-gradient-to-r from-electric via-cyan-300 to-violet-400 px-5 py-3 text-sm font-medium text-space transition hover:scale-[1.01]"
-            >
-              See the work
-            </a>
-            <a
-              href="#contact"
-              className="rounded-full border border-white/15 px-5 py-3 text-sm font-medium text-white/85 transition hover:border-electric/50 hover:text-electric"
-            >
-              Start a conversation
-            </a>
+        <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12">
+          <div className="max-w-3xl space-y-6">
+            <p className="text-sm uppercase tracking-[0.35em] text-electric/80 sm:tracking-[0.45em]">
+              AI consultancy for musicians and the music business
+            </p>
+            <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl md:text-6xl">
+              Cloudsurfing{' '}
+              <span className="bg-gradient-to-r from-electric via-cyan-300 to-violet-400 bg-clip-text text-transparent">
+                Jupiter
+              </span>
+            </h1>
+            <p className="max-w-2xl text-base text-white/70 sm:text-lg">
+              We help musicians, labels, catalogs, and music ops put AI to work — without turning the studio into a software company. This is the AI consulting front of High Strung Productions.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#proof"
+                className="rounded-full bg-gradient-to-r from-electric via-cyan-300 to-violet-400 px-5 py-3 text-sm font-medium text-space transition hover:scale-[1.01]"
+              >
+                See the work
+              </a>
+              <a
+                href="#contact"
+                className="rounded-full border border-white/15 px-5 py-3 text-sm font-medium text-white/85 transition hover:border-electric/50 hover:text-electric"
+              >
+                Start a conversation
+              </a>
+            </div>
+          </div>
+          <div className="flex justify-center lg:justify-end">
+            <Image
+              src="/csj-logo.png"
+              alt="Cloud Surfing Jupiter logo: a dark navy planet with orange and cyan diagonal stripes and a two-toned ring, above the text Cloud Surfing JUPITER."
+              width={1254}
+              height={1254}
+              priority
+              sizes="(min-width: 1024px) 380px, (min-width: 640px) 300px, 240px"
+              className="h-auto w-full max-w-[240px] sm:max-w-[300px] lg:max-w-[380px]"
+            />
           </div>
         </section>
 
