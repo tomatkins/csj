@@ -77,9 +77,9 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
           <div className="flex justify-center lg:justify-end">
             <Image
               src="/csj-logo.png"
-              alt="Cloud Surfing Jupiter logo: a dark navy planet with orange and cyan diagonal stripes and a two-toned ring, above the text Cloud Surfing JUPITER."
-              width={1536}
-              height={1024}
+              alt="Cloud Surfing Jupiter logo: a medium-blue planet with cyan stripes, an orange spot, and a cyan-and-orange ring, above the text Cloud Surfing JUPITER."
+              width={1254}
+              height={1254}
               priority
               sizes="(min-width: 1024px) 380px, (min-width: 640px) 300px, 240px"
               className="h-auto w-full max-w-[240px] sm:max-w-[300px] lg:max-w-[380px]"
