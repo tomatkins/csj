@@ -10,7 +10,7 @@ export default async function ProtectedLayout({ children }: { children: ReactNod
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/');
+  if (!user) redirect('/signin');
 
   return (
     <CosmicShell>

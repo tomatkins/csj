@@ -6,7 +6,6 @@ import { createClient } from '@/lib/supabase/client';
 import { CosmicShell } from '@/components/cosmic-shell';
 import { AuthCard } from '@/components/auth-card';
 import { StatusMessage } from '@/components/status-message';
-import { EmailCapture } from '@/components/email-capture';
 
 type Mode = 'signin' | 'signup';
 
@@ -180,91 +179,70 @@ export function AuthPage() {
 
   return (
     <CosmicShell>
-      <main className="mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
-        <div className="grid w-full items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
-          <section className="space-y-6 text-center lg:text-left">
-            <p className="text-sm uppercase tracking-[0.35em] text-electric/80 sm:tracking-[0.45em]">Space-aged sound. Human connection.</p>
-            <h1 className="max-w-2xl text-4xl font-semibold leading-tight text-white sm:text-5xl md:text-6xl">
-              Welcome to <span className="bg-gradient-to-r from-electric via-cyan-300 to-violet-400 bg-clip-text text-transparent">Cloudsurfing Jupiter</span>.
-            </h1>
-            <p className="max-w-xl text-base text-white/70 sm:text-lg">
-              Step into Tom Atkins&apos; cosmic corner of music, lessons, and creative connection — wrapped in a sleek neon orbit.
-            </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {['Music Library', 'Lessons', 'Direct Contact'].map((item, index) => (
-                <div key={item} className="animate-drift rounded-2xl border border-white/10 bg-white/6 p-4 backdrop-blur-xl" style={{ animationDelay: `${index * 300}ms` }}>
-                  <div className="mb-3 h-1.5 w-12 rounded-full bg-gradient-to-r from-electric to-nebula" />
-                  <p className="text-sm text-white/80">{item}</p>
-                </div>
-              ))}
-            </div>
-            <EmailCapture source="homepage" />
-          </section>
+      <main className="mx-auto flex min-h-screen w-full max-w-lg items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
+        <AuthCard
+          title={mode === 'signin' ? 'Return to orbit' : 'Create your cosmic account'}
+          subtitle={mode === 'signin' ? 'Sign in to access your dashboard.' : 'Sign up to unlock the full Cloudsurfing Jupiter experience.'}
+        >
+          <div className="mb-6 grid grid-cols-2 rounded-full border border-white/10 bg-black/20 p-1">
+            <button
+              type="button"
+              onClick={() => setMode('signin')}
+              className={`rounded-full px-4 py-2.5 text-sm transition sm:text-base ${mode === 'signin' ? 'bg-electric text-space' : 'text-white/70 hover:text-white'}`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('signup')}
+              className={`rounded-full px-4 py-2.5 text-sm transition sm:text-base ${mode === 'signup' ? 'bg-electric text-space' : 'text-white/70 hover:text-white'}`}
+            >
+              Sign Up
+            </button>
+          </div>
 
-          <AuthCard
-            title={mode === 'signin' ? 'Return to orbit' : 'Create your cosmic account'}
-            subtitle={mode === 'signin' ? 'Sign in to access your dashboard.' : 'Sign up to unlock the full Cloudsurfing Jupiter experience.'}
-          >
-            <div className="mb-6 grid grid-cols-2 rounded-full border border-white/10 bg-black/20 p-1">
-              <button
-                type="button"
-                onClick={() => setMode('signin')}
-                className={`rounded-full px-4 py-2.5 text-sm transition sm:text-base ${mode === 'signin' ? 'bg-electric text-space' : 'text-white/70 hover:text-white'}`}
-              >
-                Sign In
-              </button>
-              <button
-                type="button"
-                onClick={() => setMode('signup')}
-                className={`rounded-full px-4 py-2.5 text-sm transition sm:text-base ${mode === 'signup' ? 'bg-electric text-space' : 'text-white/70 hover:text-white'}`}
-              >
-                Sign Up
-              </button>
-            </div>
+          <div className="space-y-4">
+            <StatusMessage type="error" message={error} />
+            <StatusMessage type="success" message={success} />
+          </div>
 
-            <div className="space-y-4">
-              <StatusMessage type="error" message={error} />
-              <StatusMessage type="success" message={success} />
-            </div>
-
-            {mode === 'signin' ? (
-              <form className="mt-6 space-y-4" onSubmit={handleSignIn}>
-                <Field label="Email">
-                  <input required type="email" maxLength={MAX_LENGTHS.email} value={signin.email} onChange={(e) => setSignin({ ...signin, email: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label="Password">
-                  <input required type="password" maxLength={MAX_LENGTHS.password} value={signin.password} onChange={(e) => setSignin({ ...signin, password: e.target.value })} className={inputClass} />
-                </Field>
-                <button disabled={loading} className={buttonClass}>{loading ? 'Launching…' : 'Sign In'}</button>
-              </form>
-            ) : (
-              <form className="mt-6 space-y-4" onSubmit={handleSignUp}>
-                <Field label="First Name">
-                  <input required maxLength={MAX_LENGTHS.firstName} value={signup.firstName} onChange={(e) => setSignup({ ...signup, firstName: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label="Last Name">
-                  <input required maxLength={MAX_LENGTHS.lastName} value={signup.lastName} onChange={(e) => setSignup({ ...signup, lastName: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label="Email">
-                  <input required type="email" maxLength={MAX_LENGTHS.email} value={signup.email} onChange={(e) => setSignup({ ...signup, email: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label="Create your password" helperText="Minimum 12 characters">
-                  <input required type="password" minLength={12} maxLength={MAX_LENGTHS.password} value={signup.password} onChange={(e) => setSignup({ ...signup, password: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label="X Handle">
-                  <input maxLength={MAX_LENGTHS.xHandle} value={signup.xHandle} placeholder="@yourhandle" onChange={(e) => setSignup({ ...signup, xHandle: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label="Facebook URL">
-                  <input type="url" maxLength={MAX_LENGTHS.facebookUrl} value={signup.facebookUrl} onChange={(e) => setSignup({ ...signup, facebookUrl: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label="YouTube URL">
-                  <input type="url" maxLength={MAX_LENGTHS.youtubeUrl} value={signup.youtubeUrl} onChange={(e) => setSignup({ ...signup, youtubeUrl: e.target.value })} className={inputClass} />
-                </Field>
-                <button disabled={loading} className={buttonClass}>{loading ? 'Creating orbit…' : 'Create Account'}</button>
-              </form>
-            )}
-          </AuthCard>
-        </div>
+          {mode === 'signin' ? (
+            <form className="mt-6 space-y-4" onSubmit={handleSignIn}>
+              <Field label="Email">
+                <input required type="email" maxLength={MAX_LENGTHS.email} value={signin.email} onChange={(e) => setSignin({ ...signin, email: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Password">
+                <input required type="password" maxLength={MAX_LENGTHS.password} value={signin.password} onChange={(e) => setSignin({ ...signin, password: e.target.value })} className={inputClass} />
+              </Field>
+              <button disabled={loading} className={buttonClass}>{loading ? 'Launching…' : 'Sign In'}</button>
+            </form>
+          ) : (
+            <form className="mt-6 space-y-4" onSubmit={handleSignUp}>
+              <Field label="First Name">
+                <input required maxLength={MAX_LENGTHS.firstName} value={signup.firstName} onChange={(e) => setSignup({ ...signup, firstName: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Last Name">
+                <input required maxLength={MAX_LENGTHS.lastName} value={signup.lastName} onChange={(e) => setSignup({ ...signup, lastName: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Email">
+                <input required type="email" maxLength={MAX_LENGTHS.email} value={signup.email} onChange={(e) => setSignup({ ...signup, email: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Create your password" helperText="Minimum 12 characters">
+                <input required type="password" minLength={12} maxLength={MAX_LENGTHS.password} value={signup.password} onChange={(e) => setSignup({ ...signup, password: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="X Handle">
+                <input maxLength={MAX_LENGTHS.xHandle} value={signup.xHandle} placeholder="@yourhandle" onChange={(e) => setSignup({ ...signup, xHandle: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Facebook URL">
+                <input type="url" maxLength={MAX_LENGTHS.facebookUrl} value={signup.facebookUrl} onChange={(e) => setSignup({ ...signup, facebookUrl: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="YouTube URL">
+                <input type="url" maxLength={MAX_LENGTHS.youtubeUrl} value={signup.youtubeUrl} onChange={(e) => setSignup({ ...signup, youtubeUrl: e.target.value })} className={inputClass} />
+              </Field>
+              <button disabled={loading} className={buttonClass}>{loading ? 'Creating orbit…' : 'Create Account'}</button>
+            </form>
+          )}
+        </AuthCard>
       </main>
     </CosmicShell>
   );
