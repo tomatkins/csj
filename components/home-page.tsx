@@ -12,12 +12,12 @@ const whoWeHelp = [
     copy: 'Practice, catalog, and the messy files around a working career.',
   },
   {
-    title: 'Labels',
-    copy: 'Release ops, metadata, and the queue that never quite empties.',
+    title: 'Studios',
+    copy: 'Helping with infrastructure and AI integration.',
   },
   {
-    title: 'Catalogs',
-    copy: 'Rights, assets, and the question of where that master actually lives.',
+    title: 'Creatives',
+    copy: 'Get the most out of AI to further a creative vision — without replacing the human.',
   },
   {
     title: 'Music ops',
@@ -48,7 +48,7 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
         <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12">
           <div className="max-w-3xl space-y-6">
             <p className="text-sm uppercase tracking-[0.35em] text-electric/80 sm:tracking-[0.45em]">
-              AI consultancy for musicians and the music business
+              AI consultancy for Musicians
             </p>
             <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl md:text-6xl">
               Cloudsurfing{' '}
@@ -57,7 +57,7 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
               </span>
             </h1>
             <p className="max-w-2xl text-base text-white/70 sm:text-lg">
-              We help musicians, labels, catalogs, and music ops put AI to work — without turning the studio into a software company. This is the AI consulting front of High Strung Productions.
+              We help musicians, music studios, and creatives put AI to work for them, not putting them out of work.
             </p>
             <div className="flex flex-wrap gap-3">
               <a
