@@ -6,8 +6,9 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Cloudsurfing Jupiter',
-  description: 'AI for musicians and the music business. Case studies, notes, and a mailing list from Tom Atkins.',
+  title: 'Cloudsurfing Jupiter — AI consultancy for musicians and the music business',
+  description:
+    'Cloudsurfing Jupiter is the AI consulting front of High Strung Productions. We help musicians, labels, catalogs, and music ops put AI to work.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

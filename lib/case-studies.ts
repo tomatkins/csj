@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 
 /**
- * Featured work on the public CSJ homepage.
+ * Case studies as proof of the consulting work — not an app store / featured-apps catalog.
  *
  * Shape matches hsp-platform `caseStudy` (title, summary, stack, outcome, relatedApp).
  *
@@ -23,13 +23,20 @@ export type CaseStudy = {
   order: number;
 };
 
+export const HSP_SITE = 'https://highstrungpro.com';
+
+export function studyHref(study: CaseStudy): string | undefined {
+  if (study.href) return study.href;
+  return undefined;
+}
+
 export const STATIC_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'curator',
     title: 'Curator',
     summary:
-      'One of the tools Cloudsurfing Jupiter installs for people. Breakdowns will land here as the project progresses.',
-    stack: [],
+      'Catalogs and working files pile up faster than folders can keep them. Curator is how we put AI in the archive so music ops can find the work — evidence of catalog consulting, not a store listing.',
+    stack: ['Catalog ops', 'AI file management'],
     outcome: 'In progress',
     relatedApp: 'curator',
     order: 1,
@@ -38,8 +45,9 @@ export const STATIC_CASE_STUDIES: CaseStudy[] = [
     slug: 'iguitar-journal',
     title: 'iGuitar Journal',
     summary:
-      'The practice journal with Eddie, your AI guitar coach — a musician-facing case study, not a catalog listing.',
-    stack: [],
+      'A private practice record for guitarists, with Eddie as AI coach. Proof of musician-facing consulting: intelligence that sits in the journal, not another social feed.',
+    stack: ['Musician AI', 'Practice coaching'],
+    outcome: 'Practice journal with the player',
     relatedApp: 'iguitar-journal',
     href: 'https://iguitarjournal.com',
     order: 2,
@@ -48,8 +56,8 @@ export const STATIC_CASE_STUDIES: CaseStudy[] = [
     slug: 'rheander',
     title: 'Rheander',
     summary:
-      'Formerly Mind Streaming. Speak your mind. Keep your mind. Voice notes that become searchable transcripts and real to-dos — all on device.',
-    stack: [],
+      'Formerly Mind Streaming. Speak your mind. Keep your mind. On-device voice notes become searchable transcripts and real to-dos — proof we treat artist data with care.',
+    stack: ['On-device AI', 'Voice workflow'],
     outcome: 'Released',
     relatedApp: 'rheander',
     href: 'https://highstrungpro.com/rheander/',
@@ -57,18 +65,49 @@ export const STATIC_CASE_STUDIES: CaseStudy[] = [
   },
 ];
 
-function mapEntry(slug: string, data: Record<string, unknown>): CaseStudy | null {
-  const title = typeof data.title === 'string' ? data.title : null;
-  const summary = typeof data.summary === 'string' ? data.summary : null;
+type ContentRow = {
+  slug: string;
+  data: {
+    title?: unknown;
+    summary?: unknown;
+    stack?: unknown;
+    outcome?: unknown;
+    relatedApp?: unknown;
+    href?: unknown;
+    order?: unknown;
+    draft?: unknown;
+  } | null;
+};
+
+function asString(value: unknown) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function asStringList(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value.map((item) => asString(item)).filter(Boolean);
+}
+
+function asNumber(value: unknown, fallback: number) {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
+function fromCmsRow(row: ContentRow, index: number): CaseStudy | null {
+  const data = row.data ?? {};
+  if (data.draft === true) return null;
+  const title = asString(data.title);
+  const summary = asString(data.summary);
   if (!title || !summary) return null;
-
-  const stack = Array.isArray(data.stack) ? data.stack.map(String) : [];
-  const outcome = typeof data.outcome === 'string' && data.outcome ? data.outcome : undefined;
-  const relatedApp = typeof data.relatedApp === 'string' && data.relatedApp ? data.relatedApp : undefined;
-  const href = typeof data.href === 'string' && data.href ? data.href : undefined;
-  const order = typeof data.order === 'number' ? data.order : 0;
-
-  return { slug, title, summary, stack, outcome, relatedApp, href, order };
+  return {
+    slug: row.slug || title.toLowerCase().replace(/\s+/g, '-'),
+    title,
+    summary,
+    stack: asStringList(data.stack),
+    outcome: asString(data.outcome) || undefined,
+    relatedApp: asString(data.relatedApp) || undefined,
+    href: asString(data.href) || undefined,
+    order: asNumber(data.order, index),
+  };
 }
 
 export async function loadCaseStudies(): Promise<CaseStudy[]> {
@@ -82,13 +121,9 @@ export async function loadCaseStudies(): Promise<CaseStudy[]> {
 
     if (error || !data?.length) return STATIC_CASE_STUDIES;
 
-    const mapped = data
-      .map((row) => {
-        const slug = typeof row.slug === 'string' ? row.slug : '';
-        const payload = (row.data ?? {}) as Record<string, unknown>;
-        return mapEntry(slug, payload);
-      })
-      .filter((item): item is CaseStudy => item !== null)
+    const mapped = (data as ContentRow[])
+      .map((row, index) => fromCmsRow(row, index))
+      .filter((entry): entry is CaseStudy => Boolean(entry))
       .sort((a, b) => a.order - b.order);
 
     return mapped.length ? mapped : STATIC_CASE_STUDIES;

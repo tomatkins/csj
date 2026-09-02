@@ -67,7 +67,7 @@ export function EmailCapture({ source = 'homepage' }: Props) {
       <p className="text-xs uppercase tracking-[0.28em] text-electric/80">Mailing list — no account needed</p>
       <h2 className="mt-2 text-xl font-semibold text-white sm:text-2xl">Notes from the orbit</h2>
       <p className="mt-2 text-sm text-white/70">
-        Occasional dispatches on the work and what’s shipping next. Separate from signing up for an account.
+        Occasional dispatches on AI for musicians and the music business. Separate from signing up for an account.
       </p>
       <form className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center" onSubmit={handleSubmit}>
         <label className="sr-only" htmlFor="csj-mailing-email">Email</label>
