@@ -1,12 +1,12 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { CosmicShell } from '@/components/cosmic-shell';
 import { AuthCard } from '@/components/auth-card';
 import { StatusMessage } from '@/components/status-message';
-import { EmailCapture } from '@/components/email-capture';
 
 type Mode = 'signin' | 'signup';
 
@@ -183,22 +183,17 @@ export function AuthPage() {
       <main className="mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
         <div className="grid w-full items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           <section className="space-y-6 text-center lg:text-left">
-            <p className="text-sm uppercase tracking-[0.35em] text-electric/80 sm:tracking-[0.45em]">Space-aged sound. Human connection.</p>
-            <h1 className="max-w-2xl text-4xl font-semibold leading-tight text-white sm:text-5xl md:text-6xl">
-              Welcome to <span className="bg-gradient-to-r from-electric via-cyan-300 to-violet-400 bg-clip-text text-transparent">Cloudsurfing Jupiter</span>.
+            <p className="text-sm uppercase tracking-[0.35em] text-electric/80 sm:tracking-[0.45em]">Client portal</p>
+            <h1 className="max-w-2xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
+              Sign in to the{' '}
+              <span className="bg-gradient-to-r from-electric via-cyan-300 to-violet-400 bg-clip-text text-transparent">workspace</span>.
             </h1>
             <p className="max-w-xl text-base text-white/70 sm:text-lg">
-              Step into Tom Atkins&apos; cosmic corner of music, lessons, and creative connection — wrapped in a sleek neon orbit.
+              The public site is the consultancy. This door is for the signed-in dashboard — accounts still live on auth.users, separate from the mailing list.
             </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {['Music Library', 'Lessons', 'Direct Contact'].map((item, index) => (
-                <div key={item} className="animate-drift rounded-2xl border border-white/10 bg-white/6 p-4 backdrop-blur-xl" style={{ animationDelay: `${index * 300}ms` }}>
-                  <div className="mb-3 h-1.5 w-12 rounded-full bg-gradient-to-r from-electric to-nebula" />
-                  <p className="text-sm text-white/80">{item}</p>
-                </div>
-              ))}
-            </div>
-            <EmailCapture source="homepage" />
+            <Link href="/" className="inline-flex text-sm text-electric/90 transition hover:text-electric">
+              ← Back to Cloudsurfing Jupiter
+            </Link>
           </section>
 
           <AuthCard
