@@ -1,11 +1,11 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { FormEvent, useState } from 'react';
 
 /**
  * Mailing-list capture — NOT account signup.
- * Writes to public.subscribers (brand=csj). auth.users / profiles are untouched.
+ * Posts to /api/subscribe, which inserts into the shared HSP
+ * public.subscribers table (brand=csj). auth.users / profiles are untouched.
  */
 type Props = {
   source?: string;
@@ -19,7 +19,6 @@ export function EmailCapture({ source = 'homepage' }: Props) {
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const supabase = useMemo(() => createClient(), []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +26,7 @@ export function EmailCapture({ source = 'homepage' }: Props) {
     setError(null);
 
     if (honey) {
-      setStatus('You’re on the list. Thanks for listening.');
+      setStatus('You\u2019re on the list. Thanks for listening.');
       setEmail('');
       return;
     }
@@ -40,26 +39,32 @@ export function EmailCapture({ source = 'homepage' }: Props) {
 
     setLoading(true);
     const page = typeof window !== 'undefined' ? window.location.pathname : '/';
-    const { error: insertError } = await supabase.from('subscribers').insert({
-      email: trimmed,
-      brand: 'csj',
-      source,
-      page,
-    });
-    setLoading(false);
-
-    if (insertError) {
-      if (insertError.code === '23505' || /duplicate|unique/i.test(insertError.message)) {
-        setStatus('You’re already on the list. Welcome back.');
-        setEmail('');
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: trimmed, source, page }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        already?: boolean;
+        error?: string;
+      };
+      if (!res.ok && !data.ok) {
+        setError(data.error || 'Could not subscribe right now. Try again in a moment.');
         return;
       }
+      if (data.already) {
+        setStatus('You\u2019re already on the list. Welcome back.');
+      } else {
+        setStatus('You\u2019re on the list. Thanks for listening.');
+      }
+      setEmail('');
+    } catch {
       setError('Could not subscribe right now. Try again in a moment.');
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    setStatus('You’re on the list. Thanks for listening.');
-    setEmail('');
   };
 
   return (
@@ -67,7 +72,7 @@ export function EmailCapture({ source = 'homepage' }: Props) {
       <p className="text-xs uppercase tracking-[0.28em] text-electric/80">Mailing list — no account needed</p>
       <h2 className="mt-2 text-xl font-semibold text-white sm:text-2xl">Notes from the orbit</h2>
       <p className="mt-2 text-sm text-white/70">
-        Occasional dispatches on the work and what’s shipping next. Separate from signing up for an account.
+        Occasional dispatches on the work and what\u2019s shipping next. Separate from signing up for an account.
       </p>
       <form className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center" onSubmit={handleSubmit}>
         <label className="sr-only" htmlFor="csj-mailing-email">Email</label>
@@ -95,7 +100,7 @@ export function EmailCapture({ source = 'homepage' }: Props) {
           disabled={loading}
           className="h-12 shrink-0 rounded-full bg-white/10 px-5 text-sm font-medium text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? 'Sending…' : 'Join the list'}
+          {loading ? 'Sending\u2026' : 'Join the list'}
         </button>
       </form>
       {status ? <p className="mt-3 text-sm text-cyan-200/90">{status}</p> : null}
