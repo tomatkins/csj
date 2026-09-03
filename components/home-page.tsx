@@ -39,6 +39,9 @@ const whatWeDo = [
   },
 ];
 
+const glass = 'rounded-2xl border border-white/10 bg-[rgba(12,28,64,0.21)] p-5 backdrop-blur-xl';
+const glassStudy = 'flex flex-col rounded-3xl border border-white/10 bg-[rgba(12,28,64,0.21)] p-6 shadow-glow backdrop-blur-2xl';
+
 export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
   return (
     <CosmicShell>
@@ -80,7 +83,7 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
             {whoWeHelp.map((item, index) => (
               <article
                 key={item.title}
-                className="animate-drift rounded-2xl border border-white/10 bg-white/6 p-5 backdrop-blur-xl"
+                className={`animate-drift ${glass}`}
                 style={{ animationDelay: `${index * 180}ms` }}
               >
                 <div className="mb-3 h-1.5 w-10 rounded-full bg-gradient-to-r from-electric to-nebula" />
@@ -98,7 +101,7 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
           </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {whatWeDo.map((item) => (
-              <article key={item.title} className="rounded-2xl border border-white/10 bg-white/6 p-5 backdrop-blur-xl">
+              <article key={item.title} className={glass}>
                 <h3 className="text-lg font-medium text-white">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/70">{item.copy}</p>
               </article>
@@ -114,7 +117,7 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
           </p>
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
             {caseStudies.map((study) => (
-              <article key={study.slug} className="flex flex-col rounded-3xl border border-white/10 bg-white/6 p-6 shadow-glow backdrop-blur-2xl">
+              <article key={study.slug} className={glassStudy}>
                 <h3 className="text-xl font-semibold text-white">{study.title}</h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-white/70">{study.summary}</p>
                 {study.stack.length ? (
