@@ -316,35 +316,25 @@ Welcome to my world.
 
 ---
 
-## High Strung Pro is the reason for all of this
+## [High Strung Productions](https://highstrungpro.com) is the reason for all of this
 
 There is another piece of this that keeps the whole experiment grounded.
 
-High Strung Pro is not an AI project.
+High Strung Productions is not an AI project. It is where the music lives. Songs. Recordings. Performances. Creative work.
 
-It is where the music lives.
+In my journey in this life, I have accepted that society has decided that the way the music industry was as I grew up in the 1970s and 1980s was going to change. Music has become "free," for everyone to do, but the gatekeepers are all about the money. If I had a million dollars to spend on seeking publicity for my music, I know I have several songs (out of the hundreds I have written) that would be on everyone's phone. But I don't have a million dollars, and if I did, I wouldn't spend it on that.
 
-Songs.
+I have accepted the world as it is. I may absolutely despise Spotify, but my music is on it. I don't despise people who love Spotify and use it without a care for the struggles of the artist. That is also not what matters. What matters is what you do with your creative spark—your uniqueness in this limited lifetime that we have.
 
-Recordings.
-
-Performances.
-
-Creative work.
+When I pick up my guitar, I play the same G chord that every other guitarist has played since 1925. I am not entitled to anything in this lifetime. I create music and write songs because it's what I love to do. High Strung Productions is my own space to do that without risking anything but my own time and joy in the creative process.
 
 AI may help me organize the material surrounding it. It may help build websites, manage archives, develop promotional ideas or find something buried on a hard drive.
 
-But at some point, somebody still has to pick up the guitar.
+But at some point, somebody still has to pick up the guitar. That matters.
 
-That matters.
+Otherwise we end up in a strange circular world where AI helps us build AI systems so we can create videos explaining AI systems to other people who are using AI systems to summarize the videos. Somebody has to make something.
 
-Otherwise we end up in a strange circular world where AI helps us build AI systems so we can create videos explaining AI systems to other people who are using AI systems to summarize the videos.
-
-Somebody has to make something.
-
-High Strung Pro represents the thing all of this technology is supposed to protect.
-
-The art.
+High Strung Productions represents the thing all of this technology is supposed to protect. **THE ART.**
 
 ---
 
@@ -494,27 +484,19 @@ If they can, I want to know how.
 
 ## So what is Cloud Surfing Jupiter?
 
-Cloud Surfing Jupiter is my ongoing experiment in creativity, technology and artificial intelligence.
+Cloud Surfing Jupiter is my ongoing experiment in creativity, technology and artificial intelligence. It is where I intend to document what I am learning while actually using these tools to create things.
 
-It is where I intend to document what I am learning while actually using these tools to create things.
+There will be music. There will be software. There will be experiments with local AI models and enormous cloud systems. There will be successes. There will be failures. There will probably be occasions when I contradict something I wrote six months earlier because the technology changed or, more likely, because I changed my mind.
 
-There will be music.
+That's fine. This isn't a doctrine. It is a journal of the trip.
 
-There will be software.
+### Why me
 
-There will be experiments with local AI models and enormous cloud systems.
+I love people. I love being alive in this moment. I graduated from SUNY Oneonta in 1995 with a music business degree. I have been bitten by this AI bug—this unknown yet vast potential—since March.
 
-There will be successes.
+I recently submitted a fix to [Garry Tan's MIT-licensed Gbrain project](https://github.com/garrytan/gbrain), specifically to "preserve dream JSON and extracted-page totals" ([#4890](https://github.com/garrytan/gbrain/pull/4890)). You don't have to understand the technical details, but basically the fix is intended to make AI memory processing more reliable. Gbrain is an open source memory project.
 
-There will absolutely be failures.
-
-There will probably be occasions when I contradict something I wrote six months earlier because the technology changed or, more likely, because I changed my mind.
-
-That's fine.
-
-This isn't a doctrine.
-
-It is a journal of the trip.
+Open source is what I advocate for—building your own AI that belongs to you and only you. I've contributed to other open source projects, specifically a few Drupal core commits. In my living as a web/app developer, I can do this—and I can help you find solutions that will work for you.
 
 A few principles will keep guiding it:
 
@@ -526,20 +508,8 @@ A few principles will keep guiding it:
 - **Stay curious without letting the technology consume all of your attention.**
 - **Create what matters.**
 
-Artificial intelligence may turn out to be one of the most useful creative tools ever invented.
+Artificial intelligence may turn out to be one of the most useful creative tools ever invented. Or maybe twenty years from now we'll look back at some of what we're doing today and laugh. Probably both.
 
-Or maybe twenty years from now we'll look back at some of what we're doing today and laugh.
+Either way, I want to explore it. Carefully. Creatively. With an open mind, a reasonable amount of skepticism and, whenever possible, a guitar somewhere within reach.
 
-Probably both.
-
-Either way, I want to explore it.
-
-Carefully.
-
-Creatively.
-
-With an open mind, a reasonable amount of skepticism and, whenever possible, a guitar somewhere within reach.
-
-Welcome to **Cloud Surfing Jupiter**.
-
-Let's see where this goes.
+Welcome to **Cloud Surfing Jupiter**. Let's see where this goes.

@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-// Preserve the approved source; editorial layout may change only whitespace/markup.
+// Compare the current approved revision; earlier copy remains in Git history.
 const original = readFileSync(new URL('../content/manifesto.md', import.meta.url), 'utf8');
 const sections = JSON.parse(readFileSync(new URL('../content/manifesto.json', import.meta.url), 'utf8'));
-const normalize = text => text.replace(/^#+ |^> |^- |^---$/gm, '').replace(/\*/g, '').replace(/\s+/g, ' ').trim();
+const normalize = text => text.replace(/^#+ |^> |^- |^---$/gm, '').replace(/\[([^\]]+)\]\(https:\/\/[^\s)]+\)/g, '$1').replace(/\*/g, '').replace(/\s+/g, ' ').trim();
 const laidOut = ['The Cloud Surfing Jupiter Founding Manifesto', ...sections.flatMap(section => [
   section.heading,
   ...section.blocks.map(block => block.type === 'list' ? block.items.join(' ') : block.text),

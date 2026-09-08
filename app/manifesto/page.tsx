@@ -19,13 +19,15 @@ export const metadata: Metadata = {
   },
 };
 
-// The approved copy uses only emphasis; keep it as text, never injected HTML.
+// Render the copy's emphasis and HTTPS links as elements, never injected HTML.
 function Inline({ text }: { text: string }) {
-  return text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).map((part, index) =>
-    part.startsWith('**') ? <strong key={index}>{part.slice(2, -2)}</strong>
+  return text.split(/(\[[^\]]+\]\(https:\/\/[^\s)]+\)|\*\*[^*]+\*\*|\*[^*]+\*)/g).map((part, index) => {
+    const link = part.match(/^\[([^\]]+)\]\((https:\/\/[^\s)]+)\)$/);
+    if (link) return <a key={index} href={link[2]}><Inline text={link[1]} /></a>;
+    return part.startsWith('**') ? <strong key={index}>{part.slice(2, -2)}</strong>
       : part.startsWith('*') ? <em key={index}>{part.slice(1, -1)}</em>
-        : part,
-  );
+        : part;
+  });
 }
 
 export default function ManifestoPage() {
@@ -36,7 +38,7 @@ export default function ManifestoPage() {
       <main className={styles.spread}>
         <div className={styles.context}>
           <Link href="/">← Back to Jupiter</Link>
-          <span>Manifesto · 12 minute read</span>
+          <span>Manifesto · 15 minute read</span>
         </div>
         <article id="manifesto" className={styles.panel} aria-labelledby="manifesto-title">
           <div className={styles.column}>
@@ -46,7 +48,7 @@ export default function ManifestoPage() {
             </header>
             {sections.map((section, index) => (
               <section key={section.id} aria-labelledby={section.id} className={index === 0 ? styles.opening : styles.section}>
-                <h2 id={section.id}>{section.heading}</h2>
+                <h2 id={section.id}><Inline text={section.heading} /></h2>
                 {section.id === 'the-razors-edge' && (
                   <figure className={styles.poster}>
                     <a className={styles.posterFrame} href="https://www.impawards.com/1984/razors_edge.html" target="_blank" rel="noreferrer" aria-label="View The Razor's Edge (1984) poster source (opens in a new tab)">
@@ -56,6 +58,7 @@ export default function ManifestoPage() {
                   </figure>
                 )}
                 {section.blocks.map((block, blockIndex) => {
+                  if (block.type === 'heading') return <h3 key={blockIndex}><Inline text={block.text!} /></h3>;
                   if (block.type === 'list') return <ul key={blockIndex}>{block.items!.map(item => <li key={item}><Inline text={item} /></li>)}</ul>;
                   if (block.type === 'quote') return <blockquote key={blockIndex}><p><Inline text={block.text!} /></p></blockquote>;
                   return <p key={blockIndex}><Inline text={block.text!} /></p>;

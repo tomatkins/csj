@@ -4,7 +4,7 @@ Personal project. More coming soon.
 # Manifesto
 
 The public article lives at `/manifesto`, linked from the shared homepage navigation.
-`content/manifesto.md` preserves the approved source from the publication draft.
+`content/manifesto.md` preserves the current approved copy; Git retains earlier revisions.
 `content/manifesto.json` contains the same copy grouped into editorial paragraphs;
 headings, emphasis, and the closing principles list are retained.
 
