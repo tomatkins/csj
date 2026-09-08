@@ -93,3 +93,28 @@ body {
   background: rgba(84, 210, 255, 0.35);
   color: white;
 }
+
+/* The article keeps the homepage artwork, softened behind an opaque reading surface. */
+.csj-reading .csj-hero-image {
+  position: fixed;
+  filter: saturate(.55) blur(3px);
+  opacity: .38;
+  background-position: center top;
+}
+.csj-reading .csj-hero-vignette {
+  position: fixed;
+  background: linear-gradient(180deg, #080e1b45, #080e1b9c 70%);
+}
+.csj-reading a:focus-visible {
+  outline: 2px solid #93dce7;
+  outline-offset: 5px;
+  border-radius: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+@media print {
+  .csj-reading > .csj-hero-image, .csj-reading > .csj-hero-vignette,
+  .csj-reading > div > header { display: none; }
+  .csj-reading { background: white; }
+}
