@@ -494,7 +494,7 @@ That's fine. This isn't a doctrine. It is a journal of the trip.
 
 I love people. I love being alive in this moment. I graduated from SUNY Oneonta in 1995 with a music business degree. I have been bitten by this AI bug—this unknown yet vast potential.
 
-I got clawed into this AI interest thanks to Peter Steinberger's amazing OpenClaw harness back in late February 2026, and I have been an active contributor to Alex Finn's [Vibe Coding Academy on Skool](https://www.skool.com/vibe-coding-academy/about?ref=2426c5c3f26f449ea40a00617c2ee301) (affiliate link). And it is exciting!!
+I got clawed into this AI interest thanks to Peter Steinberger's amazing OpenClaw harness back in late February 2026, and I have been an active contributor to Alex Finn's (Affiliate link) [Vibe Coding Academy on Skool](https://www.skool.com/vibe-coding-academy/about?ref=2426c5c3f26f449ea40a00617c2ee301). And it is exciting!!
 
 I recently submitted a fix to [Garry Tan's MIT-licensed Gbrain project](https://gbrain.io), specifically to "preserve dream JSON and extracted-page totals" ([#4890](https://github.com/garrytan/gbrain/pull/4890)). You don't have to understand the technical details, but basically the fix is intended to make AI memory processing more reliable. Gbrain is an open source memory project.
 
