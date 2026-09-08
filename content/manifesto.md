@@ -494,7 +494,7 @@ That's fine. This isn't a doctrine. It is a journal of the trip.
 
 I love people. I love being alive in this moment. I graduated from SUNY Oneonta in 1995 with a music business degree. I have been bitten by this AI bug—this unknown yet vast potential—since March.
 
-I recently submitted a fix to [Garry Tan's MIT-licensed Gbrain project](https://github.com/garrytan/gbrain), specifically to "preserve dream JSON and extracted-page totals" ([#4890](https://github.com/garrytan/gbrain/pull/4890)). You don't have to understand the technical details, but basically the fix is intended to make AI memory processing more reliable. Gbrain is an open source memory project.
+I recently submitted a fix to [Garry Tan's MIT-licensed Gbrain project](https://gbrain.io), specifically to "preserve dream JSON and extracted-page totals" ([#4890](https://github.com/garrytan/gbrain/pull/4890)). You don't have to understand the technical details, but basically the fix is intended to make AI memory processing more reliable. Gbrain is an open source memory project.
 
 Open source is what I advocate for—building your own AI that belongs to you and only you. I've contributed to other open source projects, specifically a few Drupal core commits. In my living as a web/app developer, I can do this—and I can help you find solutions that will work for you.
 

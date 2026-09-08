@@ -349,7 +349,7 @@
       },
       {
         "type": "paragraph",
-        "text": "I recently submitted a fix to [Garry Tan's MIT-licensed Gbrain project](https://github.com/garrytan/gbrain), specifically to \"preserve dream JSON and extracted-page totals\" ([#4890](https://github.com/garrytan/gbrain/pull/4890)). You don't have to understand the technical details, but basically the fix is intended to make AI memory processing more reliable. Gbrain is an open source memory project."
+        "text": "I recently submitted a fix to [Garry Tan's MIT-licensed Gbrain project](https://gbrain.io), specifically to \"preserve dream JSON and extracted-page totals\" ([#4890](https://github.com/garrytan/gbrain/pull/4890)). You don't have to understand the technical details, but basically the fix is intended to make AI memory processing more reliable. Gbrain is an open source memory project."
       },
       {
         "type": "paragraph",
