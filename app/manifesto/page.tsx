@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CosmicShell } from '@/components/cosmic-shell';
 import { PublicHeader } from '@/components/public-header';
 import sections from '@/content/manifesto.json';
@@ -46,6 +47,14 @@ export default function ManifestoPage() {
             {sections.map((section, index) => (
               <section key={section.id} aria-labelledby={section.id} className={index === 0 ? styles.opening : styles.section}>
                 <h2 id={section.id}>{section.heading}</h2>
+                {section.id === 'the-razors-edge' && (
+                  <figure className={styles.poster}>
+                    <a className={styles.posterFrame} href="https://www.impawards.com/1984/razors_edge.html" target="_blank" rel="noreferrer" aria-label="View The Razor's Edge (1984) poster source (opens in a new tab)">
+                      <Image src="/razors-edge-1984.jpg" alt="Original illustrated poster for The Razor's Edge, starring Bill Murray, with portraits above a river and mountain scene." width={482} height={755} sizes="200px" />
+                    </a>
+                    <figcaption>The Razor’s Edge, 1984 · <a href="https://www.impawards.com/1984/razors_edge.html" target="_blank" rel="noreferrer">Poster source ↗</a></figcaption>
+                  </figure>
+                )}
                 {section.blocks.map((block, blockIndex) => {
                   if (block.type === 'list') return <ul key={blockIndex}>{block.items!.map(item => <li key={item}><Inline text={item} /></li>)}</ul>;
                   if (block.type === 'quote') return <blockquote key={blockIndex}><p><Inline text={block.text!} /></p></blockquote>;
