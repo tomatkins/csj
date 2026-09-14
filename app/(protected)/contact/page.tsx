@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { ContactForm } from '@/components/contact-form';
 import { createClient } from '@/lib/supabase/server';
 import { Profile } from '@/lib/types';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Send a note to Cloudsurfing Jupiter and Tom Atkins.',
+};
 
 export default async function ContactPage() {
   const supabase = await createClient();

@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Lessons',
+  description: 'Guitar lessons and tutorials from Tom Atkins — coming soon.',
+};
+
 const lessonCards = ['Lead Guitar', 'Songwriting', 'Tone Craft'];
 
 export default function LessonsPage() {

@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import { CosmicShell } from '@/components/cosmic-shell';
+
+export const metadata: Metadata = {
+  title: 'Redirect',
+  description: 'Cloudsurfing Jupiter Productions redirect landing page.',
+};
 
 export default function RedirectPage() {
   return (

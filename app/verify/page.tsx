@@ -1,6 +1,13 @@
+import type { Metadata } from 'next';
 import { CosmicShell } from '@/components/cosmic-shell';
 import { AuthCard } from '@/components/auth-card';
 import { VerifyForm } from '@/components/verify-form';
+
+export const metadata: Metadata = {
+  title: 'Verify email',
+  description: 'Enter the 6-digit code from your email to finish Cloudsurfing Jupiter signup.',
+  robots: { index: false, follow: false },
+};
 
 export default async function VerifyPage({ searchParams }: { searchParams: Promise<{ email?: string }> }) {
   const params = await searchParams;

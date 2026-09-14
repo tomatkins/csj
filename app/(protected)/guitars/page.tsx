@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Guitars',
+  description: "Tom Atkins' guitar collection — staged for photos and specs.",
+};
+
 const guitars = ['Guitar #1', 'Guitar #2', 'Guitar #3'];
 
 export default function GuitarsPage() {

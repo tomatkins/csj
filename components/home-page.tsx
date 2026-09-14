@@ -1,8 +1,7 @@
-import Link from 'next/link';
-import { CosmicShell } from '@/components/cosmic-shell';
 import { EmailCapture } from '@/components/email-capture';
+import { PublicChrome } from '@/components/public-chrome';
 import { PublicContact } from '@/components/public-contact';
-import { PublicHeader } from '@/components/public-header';
+import { CONTACT_NAME } from '@/lib/site';
 import { HSP_SITE, relatedAppHref, type CaseStudy } from '@/lib/case-studies';
 
 const whoWeHelp = [
@@ -44,8 +43,7 @@ const glassStudy = 'flex flex-col rounded-3xl border border-white/10 bg-[rgba(12
 
 export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
   return (
-    <CosmicShell>
-      <PublicHeader />
+    <PublicChrome>
       <main className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         <section className="max-w-3xl space-y-6">
           <p className="text-sm uppercase tracking-[0.35em] text-electric/80 sm:tracking-[0.45em]">
@@ -148,7 +146,11 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
             <p className="text-xs uppercase tracking-[0.28em] text-electric/80">Contact</p>
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">Start a conversation.</h2>
             <p className="text-sm leading-relaxed text-white/70 sm:text-base">
-              Tell us what you are trying to ship. The mailing list above is for notes; this form is for a working conversation. The signed-in workspace is separate.
+              Tell us what you are trying to ship. The mailing list above is for notes; this form is for a working conversation with {CONTACT_NAME}. The signed-in workspace is separate.
+            </p>
+            <p className="text-sm text-white/80">
+              {CONTACT_NAME}
+              <span className="text-white/55"> · Cloudsurfing Jupiter</span>
             </p>
             <p className="text-sm text-white/60">
               Sister workshop:{' '}
@@ -161,20 +163,6 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
           <PublicContact />
         </section>
       </main>
-
-      <footer className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>Cloudsurfing Jupiter · AI consultancy for musicians and the music business</p>
-          <div className="flex flex-wrap gap-4">
-            <a href={HSP_SITE} className="transition hover:text-electric">
-              High Strung Productions
-            </a>
-            <Link href="/signin" className="transition hover:text-electric">
-              Client portal
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </CosmicShell>
+    </PublicChrome>
   );
 }
