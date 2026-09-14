@@ -2,6 +2,12 @@ import { AssistantPanel } from '@/components/assistant-panel';
 import { WelcomeBanner } from '@/components/welcome-banner';
 import { createClient } from '@/lib/supabase/server';
 import { Profile } from '@/lib/types';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Cloudsurfing Jupiter client dashboard.',
+};
 
 export default async function DashboardPage() {
   const supabase = await createClient();

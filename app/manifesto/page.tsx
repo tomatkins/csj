@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CosmicShell } from '@/components/cosmic-shell';
-import { PublicHeader } from '@/components/public-header';
+import { PublicChrome } from '@/components/public-chrome';
 import sections from '@/content/manifesto.json';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'The Cloud Surfing Jupiter Founding Manifesto',
+  title: { absolute: 'The Cloud Surfing Jupiter Founding Manifesto' },
   description: 'Creativity first. Technology second. Automate the friction. Protect the authorship. The philosophy behind Cloud Surfing Jupiter.',
   alternates: { canonical: 'https://cloudsurfing-jupiter.com/manifesto' },
   openGraph: {
@@ -32,9 +31,8 @@ function Inline({ text }: { text: string }) {
 
 export default function ManifestoPage() {
   return (
-    <CosmicShell reading>
+    <PublicChrome reading currentPage="/manifesto">
       <a className={styles.skipLink} href="#manifesto">Skip to article</a>
-      <PublicHeader currentPage="/manifesto" />
       <main className={styles.spread}>
         <div className={styles.context}>
           <Link href="/">← Back to Jupiter</Link>
@@ -72,6 +70,6 @@ export default function ManifestoPage() {
           <a href="#manifesto-title">Back to top ↑</a>
         </footer>
       </main>
-    </CosmicShell>
+    </PublicChrome>
   );
 }

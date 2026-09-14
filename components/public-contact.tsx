@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { StatusMessage } from '@/components/status-message';
 
 const MAX_NAME = 120;
@@ -14,17 +15,16 @@ function trimValue(value: string) {
 }
 
 export function PublicContact() {
+  const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus(null);
     setError(null);
 
     const trimmedName = trimValue(name);
@@ -73,11 +73,7 @@ export function PublicContact() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Unable to send message');
-      setStatus('Message received. We will be in touch.');
-      setName('');
-      setEmail('');
-      setSubject('');
-      setMessage('');
+      router.push('/thanks');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unexpected error');
     } finally {
@@ -132,7 +128,6 @@ export function PublicContact() {
         />
       </label>
       <div className="space-y-4">
-        <StatusMessage type="success" message={status} />
         <StatusMessage type="error" message={error} />
       </div>
       <button

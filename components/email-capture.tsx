@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 /**
  * Mailing-list capture — NOT account signup.
@@ -14,20 +15,18 @@ type Props = {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function EmailCapture({ source = 'homepage' }: Props) {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [honey, setHoney] = useState('');
-  const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus(null);
     setError(null);
 
     if (honey) {
-      setStatus('You\u2019re on the list. Thanks for listening.');
-      setEmail('');
+      router.push('/thanks?source=list');
       return;
     }
 
@@ -55,11 +54,10 @@ export function EmailCapture({ source = 'homepage' }: Props) {
         return;
       }
       if (data.already) {
-        setStatus('You\u2019re already on the list. Welcome back.');
+        router.push('/thanks?source=list&already=1');
       } else {
-        setStatus('You\u2019re on the list. Thanks for listening.');
+        router.push('/thanks?source=list');
       }
-      setEmail('');
     } catch {
       setError('Could not subscribe right now. Try again in a moment.');
     } finally {
@@ -85,7 +83,12 @@ export function EmailCapture({ source = 'homepage' }: Props) {
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="h-12 w-full rounded-full border border-white/10 bg-black/30 px-4 text-base text-white outline-none transition placeholder:text-white/30 focus:border-electric/60 focus:ring-2 focus:ring-electric/20 sm:flex-1"
+          aria-invalid={Boolean(error)}
+          className={`h-12 w-full rounded-full border bg-black/30 px-4 text-base text-white outline-none transition placeholder:text-white/30 focus:ring-2 sm:flex-1 ${
+            error
+              ? 'border-rose-400/50 focus:border-rose-300/70 focus:ring-rose-400/20'
+              : 'border-white/10 focus:border-electric/60 focus:ring-electric/20'
+          }`}
         />
         <input
           type="text"
@@ -103,8 +106,7 @@ export function EmailCapture({ source = 'homepage' }: Props) {
           {loading ? 'Sending\u2026' : 'Join the list'}
         </button>
       </form>
-      {status ? <p className="mt-3 text-sm text-cyan-200/90">{status}</p> : null}
-      {error ? <p className="mt-3 text-sm text-rose-300/90">{error}</p> : null}
+      {error ? <p className="mt-3 text-sm text-rose-300/90" role="alert">{error}</p> : null}
     </section>
   );
 }

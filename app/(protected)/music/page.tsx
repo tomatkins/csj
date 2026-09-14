@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Music library',
+  description: 'High Strung Music Library placeholder catalog in the Cloudsurfing Jupiter workspace.',
+};
+
 const tracks = [
   'Jupiter Skies',
   'High Strung Aurora',

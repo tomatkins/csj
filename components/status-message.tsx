@@ -3,6 +3,7 @@ export function StatusMessage({ type, message }: { type: 'error' | 'success'; me
 
   return (
     <div
+      role={type === 'error' ? 'alert' : 'status'}
       className={`rounded-2xl border px-4 py-3 text-sm ${
         type === 'error'
           ? 'border-rose-400/30 bg-rose-500/10 text-rose-100'
