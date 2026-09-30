@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { CONTACT_NAME, CONTACT_PATH, HSP_SITE, SITE_NAME } from '@/lib/site';
+import { CONTACT_NAME, CONTACT_PATH, HSP_SITE } from '@/lib/site';
 import { CookieSettingsButton } from '@/components/cookie-settings-button';
 
+const FOOTER_BRAND = 'Cloud Surfing Jupiter';
 const FOOTER_UTM = 'utm_source=csj&utm_medium=footer';
 
 const SISTER_SITES = [
@@ -17,7 +18,7 @@ export function SiteFooter() {
         <p>
           <span className="text-white/75">{CONTACT_NAME}</span>
           {' · '}
-          {SITE_NAME} · AI consultancy for musicians and the music business
+          {FOOTER_BRAND} · AI consultancy for musicians and the music business
         </p>
         <p>
           Contact:{' '}
