@@ -1,6 +1,15 @@
 import Link from 'next/link';
-import { CONTACT_NAME, CONTACT_PATH, HSP_SITE, SITE_NAME } from '@/lib/site';
+import { CONTACT_NAME, CONTACT_PATH, HSP_SITE } from '@/lib/site';
 import { CookieSettingsButton } from '@/components/cookie-settings-button';
+
+const FOOTER_BRAND = 'Cloud Surfing Jupiter';
+const FOOTER_UTM = 'utm_source=csj&utm_medium=footer';
+
+const SISTER_SITES = [
+  { href: `${HSP_SITE}?${FOOTER_UTM}`, label: 'High Strung Productions' },
+  { href: `https://www.iguitarjournal.com?${FOOTER_UTM}`, label: 'iGuitar Journal' },
+  { href: `https://tomatkinsband.com?${FOOTER_UTM}`, label: 'Tom Atkins Band' },
+] as const;
 
 export function SiteFooter() {
   return (
@@ -9,7 +18,7 @@ export function SiteFooter() {
         <p>
           <span className="text-white/75">{CONTACT_NAME}</span>
           {' · '}
-          {SITE_NAME} · AI consultancy for musicians and the music business
+          {FOOTER_BRAND} · AI consultancy for musicians and the music business
         </p>
         <p>
           Contact:{' '}
@@ -26,9 +35,11 @@ export function SiteFooter() {
             Terms
           </Link>
           <CookieSettingsButton />
-          <a href={HSP_SITE} className="transition hover:text-electric">
-            High Strung Productions
-          </a>
+          {SISTER_SITES.map((site) => (
+            <a key={site.label} href={site.href} className="transition hover:text-electric">
+              {site.label}
+            </a>
+          ))}
           <Link href="/signin" className="transition hover:text-electric">
             Client portal
           </Link>
