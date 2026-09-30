@@ -114,26 +114,29 @@ export function HomePage({ caseStudies }: { caseStudies: CaseStudy[] }) {
             These apps are evidence of the consulting work. The product home lives at High Strung Productions.
           </p>
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
-            {caseStudies.map((study) => (
-              <article key={study.slug} className={glassStudy}>
-                <h3 className="text-xl font-semibold text-white">{study.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-white/70">{study.summary}</p>
-                {study.stack.length ? (
-                  <p className="mt-4 text-xs uppercase tracking-[0.18em] text-aurora/80">{study.stack.join(' · ')}</p>
-                ) : null}
-                {study.outcome ? (
-                  <p className="mt-3 text-sm text-white/80">{study.outcome}</p>
-                ) : null}
-                {study.relatedApp ? (
-                  <a
-                    href={relatedAppHref(study.relatedApp)}
-                    className="mt-5 text-sm text-electric/90 transition hover:text-electric"
-                  >
-                    Related work at High Strung Pro →
-                  </a>
-                ) : null}
-              </article>
-            ))}
+            {caseStudies.map((study) => {
+              const relatedHref = study.relatedApp ? relatedAppHref(study.relatedApp) : null;
+              return (
+                <article key={study.slug} className={glassStudy}>
+                  <h3 className="text-xl font-semibold text-white">{study.title}</h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-white/70">{study.summary}</p>
+                  {study.stack.length ? (
+                    <p className="mt-4 text-xs uppercase tracking-[0.18em] text-aurora/80">{study.stack.join(' · ')}</p>
+                  ) : null}
+                  {study.outcome ? (
+                    <p className="mt-3 text-sm text-white/80">{study.outcome}</p>
+                  ) : null}
+                  {relatedHref ? (
+                    <a
+                      href={relatedHref}
+                      className="mt-5 text-sm text-electric/90 transition hover:text-electric"
+                    >
+                      Related work at High Strung Pro →
+                    </a>
+                  ) : null}
+                </article>
+              );
+            })}
           </div>
         </section>
 

@@ -18,8 +18,21 @@ export type CaseStudy = {
 
 export const HSP_SITE = 'https://highstrungpro.com';
 
-export function relatedAppHref(relatedApp: string) {
-  return `${HSP_SITE}/apps/${relatedApp}`;
+/**
+ * Slugs that have a live section on the High Strung apps shelf.
+ * Curator has no public page and no shelf anchor, so it is omitted.
+ * Unknown slugs resolve to null — CMS rows and the fallback list share this map,
+ * and neither can emit a `/apps/{slug}` path that 404s.
+ */
+const RELATED_APP_ANCHORS: Record<string, string> = {
+  'iguitar-journal': 'iguitar-journal',
+  rheander: 'rheander',
+};
+
+export function relatedAppHref(relatedApp: string): string | null {
+  const anchor = RELATED_APP_ANCHORS[relatedApp.trim().toLowerCase()];
+  if (!anchor) return null;
+  return `${HSP_SITE}/apps#${anchor}`;
 }
 
 export const FEATURED_CASE_STUDIES: CaseStudy[] = [
